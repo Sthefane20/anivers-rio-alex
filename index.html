@@ -31,6 +31,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       overflow: hidden;
       animation: abrirCarta 1.5s forwards;
+      z-index: 10; /* carta abaixo das fotos pra você arrastar por cima */
     }
 
     /* Texto dentro da carta */
@@ -67,7 +68,7 @@
       color: #333;
     }
 
-    /* Fotos */
+    /* Fotos (arrastáveis) */
     .foto {
       position: absolute;
       width: 120px;
@@ -76,6 +77,10 @@
       opacity: 0;
       transform: scale(0.5) rotate(0deg);
       animation: aparecer 1s forwards;
+      cursor: grab;
+      user-select: none;
+      touch-action: none; /* necessário p/ Pointer Events no mobile */
+      z-index: 20; /* acima da carta p/ arrastar por cima */
     }
 
     @keyframes aparecer {
@@ -125,13 +130,13 @@ FELIZ ANIVERSÁRIO, TETOOOOO! 🎉<br><br>
 Com carinho,<br>
 Teti<br><br>
 
-<!-- Data alinhada à direita -->
+<!-- Data alinhada à direita (faz parte do texto/scroll) -->
 <span style="display:block; text-align:right; font-size:1.2rem;">13/09/2025</span>
       </p>
     </div>
   </div>
 
-  <!-- Fotos animadas -->
+  <!-- 13 imagens (algumas .JPG como você tinha) -->
   <img src="foto1.jpg" class="foto">
   <img src="foto2.jpg" class="foto">
   <img src="foto3.jpg" class="foto">
@@ -151,16 +156,13 @@ Teti<br><br>
     const largura = window.innerWidth;
     const altura = window.innerHeight;
 
+    // Posicionamento inicial aleatório
     fotos.forEach((foto, i) => {
-      let x, y;
       const faixaAltura = altura / fotos.length;
-      y = i * faixaAltura + (Math.random() * (faixaAltura - 150));
-
-      if (Math.random() > 0.5) {
-        x = Math.random() * (largura * 0.20);
-      } else {
-        x = (largura * 0.80) + Math.random() * (largura * 0.20 - 150);
-      }
+      const y = i * faixaAltura + Math.random() * Math.max(10, (faixaAltura - 150));
+      const x = (Math.random() > 0.5)
+        ? Math.random() * (largura * 0.20)                         // esquerda
+        : (largura * 0.80) + Math.random() * Math.max(10, (largura * 0.20 - 150)); // direita
 
       const rotacao = (Math.random() * 40 - 20) + 'deg';
 
@@ -169,6 +171,50 @@ Teti<br><br>
       foto.style.setProperty('--rotacao', rotacao);
       foto.style.animationDelay = (i * 0.4) + 's';
     });
+
+    // Drag & Drop com Pointer Events (PC e celular)
+    let ativa = null;
+    let startX = 0, startY = 0, startLeft = 0, startTop = 0, pointerId = null;
+
+    const iniciarArraste = (el, e) => {
+      ativa = el;
+      pointerId = e.pointerId;
+      el.setPointerCapture(pointerId);
+      el.style.cursor = 'grabbing';
+      el.style.zIndex = 30; // traz para frente enquanto arrasta
+      const rect = el.getBoundingClientRect();
+      startLeft = rect.left;
+      startTop = rect.top;
+      startX = e.clientX;
+      startY = e.clientY;
+      e.preventDefault();
+    };
+
+    const moverArraste = (e) => {
+      if (!ativa) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      ativa.style.left = (startLeft + dx) + 'px';
+      ativa.style.top = (startTop + dy) + 'px';
+    };
+
+    const fimArraste = (e) => {
+      if (!ativa) return;
+      try { ativa.releasePointerCapture(pointerId); } catch(_) {}
+      ativa.style.cursor = 'grab';
+      ativa.style.zIndex = 20;
+      ativa = null;
+      pointerId = null;
+    };
+
+    fotos.forEach(foto => {
+      foto.addEventListener('pointerdown', (e) => iniciarArraste(foto, e));
+    });
+
+    window.addEventListener('pointermove', moverArraste);
+    window.addEventListener('pointerup', fimArraste);
+    window.addEventListener('pointercancel', fimArraste);
+    window.addEventListener('lostpointercapture', fimArraste);
   </script>
 
 </body>
