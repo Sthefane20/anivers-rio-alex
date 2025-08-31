@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Feliz Aniversário!</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Patrick Hand', cursive;
+      background: linear-gradient(135deg, #5DB996, #118B50);
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Carta */
+    .carta {
+      position: relative;
+      width: 650px;
+      max-width: 90%;
+      height: 0;
+      margin: 0 auto;
+      padding: 0;
+      background: rgba(255, 248, 220, 0.95);
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      overflow: hidden;
+      animation: abrirCarta 1.5s forwards;
+    }
+
+    /* Texto dentro da carta */
+    .texto {
+      max-width: 600px;
+      height: 80vh;
+      margin: auto;
+      padding: 40px;
+      opacity: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      animation: mostrarTexto 1s forwards;
+      animation-delay: 1.5s;
+      text-align: left;
+      color: #333;
+    }
+
+    /* Scroll invisível */
+    .texto::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1.4rem;
+      line-height: 1.8rem;
+      color: #333;
+    }
+
+    /* Fotos */
+    .foto {
+      position: absolute;
+      width: 120px;
+      border-radius: 12px;
+      box-shadow: 2px 4px 10px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: scale(0.5) rotate(0deg);
+      animation: aparecer 1s forwards;
+    }
+
+    @keyframes aparecer {
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(var(--rotacao));
+      }
+    }
+
+    @keyframes abrirCarta {
+      0% { height: 0; }
+      100% { height: 90vh; }
+    }
+
+    @keyframes mostrarTexto {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Carta com animação -->
+  <div class="carta">
+    <div class="texto">
+      <h1>Feliz Aniversário!🙉</h1>
+      <p>
+Álex, é um privilégio enorme para mim ter a sua amizade.<br>
+Encontrar você no meio de tanto caos da vida adulta é um prazer gigante, não só para mim, mas para todas as pessoas que têm a honra de passar pela sua vida e permanecer — e aquelas que não permaneceram não têm a menor noção do que estão perdendo.<br><br>
+
+Obrigada por escutar todos os meus lamentos e por me dar conselhos que, muitas vezes, eu nem sigo (porque, pqp, QUEM É VOCÊ?).<br>
+Obrigada por topar viagens e rolês aleatórios (mesmo que eu tenha que pagar tão caro na porra de uma pizza), por compartilhar as melhores músicas e ter o melhor gosto musical, pelo carinho, pela atenção, pela compreensão, por me dar meu espaço e também saber invadi-lo quando necessário.<br><br>
+
+Obrigada por aparecer nos melhores momentos e me guiar por onde devo seguir, por ser meu apoio, por ser a palavra final nas minhas dúvidas e por ter as melhores piadas nos momentos mais improváveis (com toda certeza).<br><br>
+
+Você me faz acreditar que o ambiente de trabalho pode ser mais leve, que a vida pode ser mais leve, que tudo pode ser mais tranquilo e em paz, porque existem pessoas como você — pessoas que encontram na dificuldade da vida um motivo para reencontrar forças, um ar para respirar.<br><br>
+
+Álex, saiba que seu coração é enorme e que você merece conquistar cada sonho, até aqueles que você nem imagina ter.<br>
+Eu acredito que todos os seus desejos serão realizados, pois você tem força, garra e merecimento por todos eles.<br>
+Você é um garoto de ouro, e seus pais com certeza têm um orgulho enorme do homem que você está se tornando, das conquistas que já realizou e de cada passo dado.<br>
+Álex, você brilha, ilumina cada um ao seu redor, e sua presença é significativa para todos que estão com você. Espero que um dia você seja capaz de enxergar isso em si mesmo, tá?<br><br>
+
+Este presente é um lembrete diário de como você é incrível, do bem que você faz às pessoas ao seu redor e de que, a cada lugar que for, sempre terá alguém torcendo por você daqui.<br>
+Amo você mais do que eu falo, kkkkk.<br><br>
+
+FELIZ ANIVERSÁRIO, TETOOOOO! 🎉<br><br>
+
+Com carinho,<br>
+Teti<br><br>
+
+<!-- Data alinhada à direita -->
+<span style="display:block; text-align:right; font-size:1.2rem;">13/09/2025</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Fotos animadas -->
+  <img src="foto1.jpg" class="foto">
+  <img src="foto2.jpg" class="foto">
+  <img src="foto3.jpg" class="foto">
+  <img src="foto4.jpg" class="foto">
+  <img src="foto5.jpg" class="foto">
+  <img src="foto6.jpg" class="foto">
+  <img src="foto7.jpg" class="foto">
+  <img src="foto8.jpg" class="foto">
+  <img src="foto9.jpg" class="foto">
+  <img src="foto10.jpg" class="foto">
+  <img src="foto11.jpg" class="foto">
+  <img src="foto12.jpg" class="foto">
+  <img src="foto13.jpg" class="foto">
+
+  <script>
+    const fotos = document.querySelectorAll('.foto');
+    const largura = window.innerWidth;
+    const altura = window.innerHeight;
+
+    fotos.forEach((foto, i) => {
+      let x, y;
+      const faixaAltura = altura / fotos.length;
+      y = i * faixaAltura + (Math.random() * (faixaAltura - 150));
+
+      if (Math.random() > 0.5) {
+        x = Math.random() * (largura * 0.20);
+      } else {
+        x = (largura * 0.80) + Math.random() * (largura * 0.20 - 150);
+      }
+
+      const rotacao = (Math.random() * 40 - 20) + 'deg';
+
+      foto.style.left = x + 'px';
+      foto.style.top = y + 'px';
+      foto.style.setProperty('--rotacao', rotacao);
+      foto.style.animationDelay = (i * 0.4) + 's';
+    });
+  </script>
+
+</body>
+</html>
